@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace EduHub.Ch02.Patterns.Strategies;
 
 public class CsvReportStrategy : IReportStrategy
@@ -6,7 +8,9 @@ public class CsvReportStrategy : IReportStrategy
 
     public string Render(IReadOnlyList<ClubStat> stats)
     {
-        // TODO (Strategy): Format danh sách stats thành chuỗi CSV (dòng header và các dòng dữ liệu)
-        throw new NotImplementedException();
+        var sb = new StringBuilder("Club,Members,Events,Registered,CheckedIn\n");
+        foreach (var s in stats)
+            sb.Append($"\"{s.ClubName}\",{s.Members},{s.Events},{s.Registered},{s.CheckedIn}\n");
+        return sb.ToString();
     }
 }

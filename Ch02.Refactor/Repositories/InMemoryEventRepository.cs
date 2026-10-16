@@ -6,21 +6,8 @@ public class InMemoryEventRepository : IEventRepository
 {
     private readonly List<Event> _store = new();
 
-    public IReadOnlyList<Event> GetByClub(Guid clubId)
-    {
-        // TODO: Trả về danh sách sự kiện có ClubId tương ứng
-        throw new NotImplementedException();
-    }
-
-    public Event? GetById(Guid id)
-    {
-        // TODO: Tìm sự kiện theo Id
-        throw new NotImplementedException();
-    }
-
-    public void Add(Event ev)
-    {
-        // TODO: Thêm sự kiện vào _store
-        throw new NotImplementedException();
-    }
+    public IReadOnlyList<Event> GetByClub(Guid clubId) =>
+        _store.Where(e => e.ClubId == clubId).ToList();
+    public Event? GetById(Guid id) => _store.FirstOrDefault(e => e.Id == id);
+    public void Add(Event ev) => _store.Add(ev);
 }

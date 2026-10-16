@@ -23,7 +23,7 @@ public class PatternTests
     }
 
     // ── Factory ──
-    [Theory(Skip = "TODO: bỏ Skip khi đã hoàn thiện NotificationServiceFactory")]
+    [Theory]
     [InlineData(NotificationChannel.Email, typeof(EmailNotificationService))]
     [InlineData(NotificationChannel.Sms, typeof(SmsNotificationService))]
     [InlineData(NotificationChannel.Slack, typeof(SlackNotificationService))]
@@ -39,7 +39,7 @@ public class PatternTests
         Assert.IsType(expected, service);
     }
 
-    [Fact(Skip = "TODO: bỏ Skip khi đã hoàn thiện NotificationServiceFactory")]
+    [Fact]
     public void Factory_Create_UnknownChannel_Throws()
     {
         // Arrange
@@ -53,7 +53,7 @@ public class PatternTests
     }
 
     // ── Decorator ──
-    [Fact(Skip = "TODO: bỏ Skip khi đã hoàn thiện LoggingClubRepository")]
+    [Fact]
     public void Decorator_Add_LogsAndStillStoresInInnerRepository()
     {
         // Arrange
@@ -71,7 +71,7 @@ public class PatternTests
     }
 
     // ── Strategy ──
-    [Fact(Skip = "TODO: bỏ Skip khi đã hoàn thiện ConsoleReportStrategy và CsvReportStrategy")]
+    [Fact]
     public void Strategy_SameData_RendersDifferentFormats()
     {
         // Arrange
@@ -88,7 +88,7 @@ public class PatternTests
     }
 
     // ── Observer ──
-    [Fact(Skip = "TODO: bỏ Skip khi đã hoàn thiện Observer trong EventService")]
+    [Fact]
     public void Observer_CreateEvent_NotifiesEverySubscriber()
     {
         // Arrange
@@ -109,7 +109,7 @@ public class PatternTests
         Assert.Equal(1, second.Calls);
     }
 
-    [Fact(Skip = "TODO: bỏ Skip khi đã hoàn thiện Observer trong EventService")]
+    [Fact]
     public void Observer_Unsubscribe_StopsNotifications()
     {
         // Arrange

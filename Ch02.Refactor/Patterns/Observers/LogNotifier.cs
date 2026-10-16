@@ -7,15 +7,8 @@ namespace EduHub.Ch02.Patterns.Observers;
 public class LogNotifier : IEventObserver
 {
     private readonly IAppLogger _logger;
+    public LogNotifier(IAppLogger logger) => _logger = logger;
 
-    public LogNotifier(IAppLogger logger)
-    {
-        _logger = logger;
-    }
-
-    public void OnEventCreated(Event ev, Club club)
-    {
-        // TODO (Observer): Ghi log thông tin sự kiện mới thông qua _logger
-        throw new NotImplementedException();
-    }
+    public void OnEventCreated(Event ev, Club club) =>
+        _logger.Info($"Event created: '{ev.Title}' ({club.Name})");
 }

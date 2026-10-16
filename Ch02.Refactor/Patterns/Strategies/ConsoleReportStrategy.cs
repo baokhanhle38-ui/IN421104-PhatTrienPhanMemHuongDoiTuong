@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace EduHub.Ch02.Patterns.Strategies;
 
 public class ConsoleReportStrategy : IReportStrategy
@@ -6,7 +8,10 @@ public class ConsoleReportStrategy : IReportStrategy
 
     public string Render(IReadOnlyList<ClubStat> stats)
     {
-        // TODO (Strategy): Format danh sách stats thành chuỗi dạng text hiển thị console
-        throw new NotImplementedException();
+        var sb = new StringBuilder();
+        foreach (var s in stats)
+            sb.AppendLine($"Club: {s.ClubName} | Members: {s.Members} | Events: {s.Events} | " +
+                          $"Registered: {s.Registered} | Checked-in: {s.CheckedIn}");
+        return sb.ToString();
     }
 }

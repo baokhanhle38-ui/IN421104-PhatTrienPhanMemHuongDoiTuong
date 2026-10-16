@@ -4,25 +4,25 @@ namespace EduHub.Ch02.Domain;
 public class Event
 {
     public Guid Id { get; set; }
-    public Guid ClubId {get;set;}
-    public required string Title {get;set;}
-    public DateTime Date {get;set;}
+    public Guid ClubId { get; set; }
+    public required string Title { get; set; }
+    public DateTime Date { get; set; }
 
-    public HashSet<Guid> RegisteredMemberIds{ get; set;} = new();
-    public HashSet<Guid> CheckedInMemberIds{ get; set;}= new();
-    
-    //<summary> Đăng ký </summary>
-    public bool Register(Guid menberId)=> RegisteredMemberIds.Add(menberid);
-    
-    //<summary> check-in </summary>
-    public void CheckIn(Guid menberID)
+    public HashSet<Guid> RegisteredMemberIds { get; } = new();
+    public HashSet<Guid> CheckedInMemberIds { get; } = new();
+
+    /// <summary>Đăng ký tham dự. Trả về false nếu thành viên đã đăng ký trước đó.</summary>
+    public bool Register(Guid memberId) => RegisteredMemberIds.Add(memberId);
+
+    /// <summary>Check-in. Chỉ thành viên đã đăng ký mới được check-in.</summary>
+    public void CheckIn(Guid memberId)
     {
-        if (!RegisteredMemberIDs.Contains(memberId))
-         throw new InvaliOpenrationException("Member has not registered for this event.");
-         CheckedInMemberIds.Add(memberId);
+        if (!RegisteredMemberIds.Contains(memberId))
+            throw new InvalidOperationException("Member has not registered");
+        CheckedInMemberIds.Add(memberId);
     }
-    ///<summary> Tỉ lệ check-in trên tham số đăng ký </summary>
-    public double AttendanceRate =>
-        RegisteredMemberIds.Count == 0 ?0 : (double) CheckedInMemberIds.Count / RegisteredMemberIds.Count;
 
+    /// <summary>Tỉ lệ check-in trên số đăng ký (0 nếu chưa ai đăng ký).</summary>
+    public double AttendanceRate =>
+        RegisteredMemberIds.Count == 0 ? 0 : (double)CheckedInMemberIds.Count / RegisteredMemberIds.Count;
 }

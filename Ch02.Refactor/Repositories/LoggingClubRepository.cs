@@ -20,19 +20,19 @@ public class LoggingClubRepository : IClubRepository
 
     public IReadOnlyList<Club> GetAll()
     {
-        // TODO (Decorator): Ghi log thông báo qua _logger, sau đó gọi _inner.GetAll() và trả về kết quả
-        throw new NotImplementedException();
+        _logger.Info("[repo] GetAll clubs");
+        return _inner.GetAll();
     }
 
     public Club? GetById(Guid id)
     {
-        // TODO (Decorator): Ghi log thông báo qua _logger, sau đó gọi _inner.GetById(id) và trả về kết quả
-        throw new NotImplementedException();
+        _logger.Info($"[repo] GetById {id}");
+        return _inner.GetById(id);
     }
 
     public void Add(Club club)
     {
-        // TODO (Decorator): Ghi log thông báo qua _logger, sau đó gọi _inner.Add(club)
-        throw new NotImplementedException();
+        _logger.Info($"[repo] Add club '{club.Name}'");
+        _inner.Add(club);
     }
 }

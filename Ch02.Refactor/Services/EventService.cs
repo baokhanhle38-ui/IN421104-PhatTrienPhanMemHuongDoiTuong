@@ -21,42 +21,54 @@ public class EventService : IEventService
 
     public void Subscribe(IEventObserver observer)
     {
-        // TODO (Observer): Thêm observer vào danh sách _observers
-        throw new NotImplementedException();
+        if (observer != null && !_observers.Contains(observer))
+        {
+            _observers.Add(observer);
+        }
     }
 
     public void Unsubscribe(IEventObserver observer)
     {
-        // TODO (Observer): Xóa observer khỏi danh sách _observers
-        throw new NotImplementedException();
+        _observers.Remove(observer);
     }
 
     public Event CreateEvent(Guid clubId, string title, DateTime date)
     {
-        // TODO:
-        // 1. Kiểm tra club tồn tại trong _clubs (ném InvalidOperationException nếu không thấy)
-        // 2. Kiểm tra title không được rỗng hoặc khoảng trắng (ném ArgumentException nếu rỗng)
-        // 3. Tạo Event mới và thêm vào _events
-        // 4. Báo sự kiện vừa tạo cho tất cả observer trong _observers
-        // 5. Trả về Event vừa tạo
-        throw new NotImplementedException();
+        var club = _clubs.GetById(clubId) ?? throw new InvalidOperationException($"Club with ID {clubId} was not found.");
+        if (string.IsNullOrWhiteSpace(title))
+            throw new ArgumentException("Title cannot be empty or whitespace.", nameof(title));
+
+        var ev = new Event
+        {
+            Id = Guid.NewGuid(),
+            ClubId = clubId,
+            Title = title,
+            Date = date
+        };
+
+        _events.Add(ev);
+
+        foreach (var observer in _observers)
+        {
+            observer.OnEventCreated(ev, club);
+        }
+
+        return ev;
     }
 
     public void Register(Guid eventId, Guid memberId)
     {
-        // TODO:
-        // 1. Lấy event theo eventId từ _events (ném InvalidOperationException nếu không thấy)
-        // 2. Lấy member theo memberId từ _members (ném InvalidOperationException nếu không thấy)
-        // 3. Kiểm tra member.ClubId == event.ClubId (ném InvalidOperationException nếu không cùng CLB)
-        // 4. Gọi event.Register(memberId)
-        throw new NotImplementedException();
+        var ev = _events.GetById(eventId) ?? throw new InvalidOperationException($"Event with ID {eventId} was not found.");
+        var member = _members.GetById(memberId) ?? throw new InvalidOperationException($"Member with ID {memberId} was not found.");
+        if (member.ClubId != ev.ClubId)
+            throw new InvalidOperationException("Member does not belong to the club hosting this event.");
+
+        ev.Register(memberId);
     }
 
     public void CheckIn(Guid eventId, Guid memberId)
     {
-        // TODO:
-        // 1. Lấy event theo eventId từ _events (ném InvalidOperationException nếu không thấy)
-        // 2. Gọi event.CheckIn(memberId)
-        throw new NotImplementedException();
+        var ev = _events.GetById(eventId) ?? throw new InvalidOperationException($"Event with ID {eventId} was not found.");
+        ev.CheckIn(memberId);
     }
 }

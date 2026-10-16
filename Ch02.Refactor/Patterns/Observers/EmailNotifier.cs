@@ -18,7 +18,7 @@ public class EmailNotifier : IEventObserver
 
     public void OnEventCreated(Event ev, Club club)
     {
-        // TODO (Observer): Lấy danh sách thành viên thuộc CLB từ _members và gửi email thông báo qua _notifier
-        throw new NotImplementedException();
+        foreach (var m in _members.GetByClub(club.Id))
+            _notifier.Send(m.Email, $"New event '{ev.Title}' at {club.Name} on {ev.Date:dd/MM/yyyy}");
     }
 }

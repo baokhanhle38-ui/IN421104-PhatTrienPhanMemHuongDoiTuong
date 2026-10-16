@@ -6,10 +6,11 @@ namespace EduHub.Ch02.Notifications;
 /// </summary>
 public class NotificationServiceFactory : INotificationServiceFactory
 {
-    public INotificationService Create(NotificationChannel channel)
+    public INotificationService Create(NotificationChannel channel) => channel switch
     {
-        // TODO (Factory): Trả về instance INotificationService tương ứng với từng channel (Email, Sms, Slack)
-        // Nếu channel không hợp lệ, ném ArgumentOutOfRangeException
-        throw new NotImplementedException();
-    }
+        NotificationChannel.Email => new EmailNotificationService(),
+        NotificationChannel.Sms => new SmsNotificationService(),
+        NotificationChannel.Slack => new SlackNotificationService(),
+        _ => throw new ArgumentOutOfRangeException(nameof(channel), channel, "Unsupported channel")
+    };
 }
